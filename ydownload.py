@@ -36,15 +36,3 @@ class Video():
         except:
             messagebox.showinfo("Results",message="Something went wrong")
             print("Something went wrong")
-
-
-
-
-
-# yt = YouTube("https://www.youtube.com/watch?v=MkpKosDd6UU")
-# # print(yt.title)
-# # print(yt.thumbnail_url)
-# yt.streams.filter(only_audio=True)
-
-# video = yt.streams.get_by_itag(140)
-# video.download(output_path=R"C:\Users\Shadow\OneDrive\Desktop\New folder")
