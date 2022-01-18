@@ -1,25 +1,42 @@
 from os import path
+from time import sleep
 from tkinter import BooleanVar, Button,  Checkbutton, Entry, Label, OptionMenu,  StringVar, Tk
 from tkinter.constants import FALSE, TRUE
 from ydownload import Video
+import threading
 FONT_NAME = "Courier"
 quality_choices = {"1080p","720p","480p","360p"}
-DEFAULT_SAVE = R"C:\Users\Shadow\OneDrive\Desktop\New folder"
+DEFAULT_SAVE = R"G:\Videos"
+thread_list = []
+
+def worker():
+    passVideoData()
+    sleep(10)
+
+def StartThread():
+    try:
+        x = threading.Thread(target=worker)
+        thread_list.append(x)
+        x.start()
+    except:
+        print("Something went wrong")
 
 def passVideoData():
-    data = Video()
-    data.url = url_box.get()
     if(path_to_save_box == ""):
-        data.path_to_save = DEFAULT_SAVE
-    data.path_to_save = path_to_save_box.get()
-    data.quality = tkvar.get()
-    data.sound = sound.get()
+       path_to_save = DEFAULT_SAVE
+    else:
+        path_to_save = path_to_save_box.get()
+    data = Video()
+    sound_test=sound.get()
+    url=url_box.get()
+    quality=tkvar.get()
+    data.url = url
+    data.sound = sound_test
+    data.quality = quality
+    data.path_to_save = path_to_save
     data.download()
-    
-    
 
 # ---------------------------- UI SETUP ------------------------------- #
-
 window = Tk()
 window.title("Youtube Downloader")
 
@@ -46,7 +63,7 @@ sound = BooleanVar()
 sound_only = Checkbutton(window,text="Sound_only",variable=sound,onvalue=TRUE,offvalue=FALSE)
 sound_only.grid(row=3 , column=2)
 
-download_btn = Button(text="Download",command=passVideoData,width=20)
+download_btn = Button(text="Download",command=StartThread,width=20)
 download_btn.grid(column=1,row=4)
 
 window.mainloop()
